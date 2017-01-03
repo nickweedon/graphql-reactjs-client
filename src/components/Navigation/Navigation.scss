@@ -1,0 +1,34 @@
+
+
+.link {
+  display: inline-block;
+  padding: 3px 8px;
+  font-size: 1.125em; /* ~18px */
+  text-decoration: none;
+}
+
+.link,
+.link:active,
+.link:visited {
+  color: rgba(255, 255, 255, .6);
+}
+
+.link:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.highlight {
+  margin-right: 8px;
+  margin-left: 8px;
+  color: #fff;
+  background: rgba(0, 0, 0, .15);
+  border-radius: 3px;
+}
+
+.highlight:hover {
+  background: rgba(0, 0, 0, .3);
+}
+
+.spacer {
+  color: rgba(255, 255, 255, .3);
+}

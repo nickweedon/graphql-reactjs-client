@@ -1,0 +1,44 @@
+@import '../variables.scss';
+
+.root {
+  color: #fff;
+  background: #333;
+}
+
+.container {
+  max-width: $max-content-width;
+  padding: 20px 15px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.text {
+  color: rgba(255, 255, 255, .5);
+}
+
+.textMuted {
+  color: rgba(255, 255, 255, .3);
+
+  composes: text;
+}
+
+.spacer {
+  color: rgba(255, 255, 255, .3);
+}
+
+.text,
+.link {
+  padding: 2px 5px;
+  font-size: 1em;
+}
+
+.link,
+.link:active,
+.link:visited {
+  color: rgba(255, 255, 255, .6);
+  text-decoration: none;
+}
+
+.link:hover {
+  color: rgba(255, 255, 255, 1);
+}
