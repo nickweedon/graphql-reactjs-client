@@ -1,83 +1,42 @@
-## React Starter Kit — "isomorphic" web app boilerplate
+GraphQL ReactJS Client
+======================
 
-[![Support us on Bountysource](https://dl.dropboxusercontent.com/u/16006521/react-starter-kit/banner.png)](https://salt.bountysource.com/teams/react-starter-kit)<br>
+Template website that dispatches its reactjs flow 'actions' to a RabbitMQ queue. One or more separate server processes then processes these messages as a [GraphQL](http://graphql.org/) query (see also: [GraphQL Tutorial](https://www.youtube.com/watch?v=UBGzsb2UkeY&t=397s)).
 
-> [React Starter Kit](https://www.reactstarterkit.com) is an opinionated
-> boilerplate for web development built on top of Facebook's
-> [React](https://facebook.github.io/react/) library,
-> [Node.js](https://nodejs.org/) / [Express](http://expressjs.com/) server
-> and [Flux](http://facebook.github.io/flux/) architecture. Containing
-> modern web development tools such as [Webpack](http://webpack.github.io/),
-> [Babel](http://babeljs.io/) and [BrowserSync](http://www.browsersync.io/).
-> Helping you to stay productive following the best practices. A solid starting
-> point for both professionals and newcomers to the industry.
+Running
+-------
+* npm install
+* npm run build
+* npm start
 
-See [demo](http://demo.reactstarterkit.com) &nbsp;|&nbsp;
-[docs](https://github.com/kriasoft/react-starter-kit/tree/master/docs) &nbsp;|&nbsp;
-[to-do list](https://waffle.io/kriasoft/react-starter-kit) &nbsp;|&nbsp;
-join [#react-starter-kit](https://gitter.im/kriasoft/react-starter-kit) chatroom to stay up to date &nbsp;|&nbsp;
-visit our sponsors:
+See also: [GraphQL Java Spring Server](https://github.com/nickweedon/graphql-spring-server).
 
-[![Rollbar - Full-stack error tracking for all apps in any language](https://dl.dropboxusercontent.com/u/16006521/react-starter-kit/rollbar.png)](https://rollbar.com/?utm_source=reactstartkit(github)&utm_medium=link&utm_campaign=reactstartkit(github)) &nbsp;&nbsp;
-[![Localize - Translate your web app in minutes](https://dl.dropboxusercontent.com/u/16006521/react-starter-kit/localize.png)](https://localizejs.com/?cid=802&utm_source=rsk)
-
-### Getting Started
-
-  * Follow the [getting started guide](./docs/getting-started.md) to download and run the project
-  * Check the [code recipes](./docs/recipes) used in this boilerplate, or share yours
-
-### Directory Layout
-
-```
-.
-├── /build/                     # The folder for compiled output
-├── /docs/                      # Documentation files for the project
-├── /node_modules/              # 3rd-party libraries and utilities
-├── /src/                       # The source code of the application
-│   ├── /actions/               # Action creators that allow to trigger a dispatch to stores
-│   ├── /components/            # React components
-│   ├── /constants/             # Constants (action types etc.)
-│   ├── /content/               # Static content (plain HTML or Markdown, Jade, you name it)
-│   ├── /core/                  # Core framework and utility functions
-│   ├── /data/                  # GraphQL server schema
-│   ├── /decorators/            # Higher-order React components
-│   ├── /public/                # Static files which are copied into the /build/public folder
-│   ├── /stores/                # Stores contain the application state and logic
-│   ├── /views/                 # Express.js views for index and error pages
-│   ├── /client.js              # Client-side startup script
-│   ├── /config.js              # Global application settings
-│   ├── /routes.jsx              # Universal (isomorphic) application routes
-│   └── /server.js              # Server-side startup script
-├── /tools/                     # Build automation scripts and utilities
-│   ├── /lib/                   # Library for utility snippets
-│   ├── /build.js               # Builds the project from source to output (build) folder
-│   ├── /bundle.js              # Bundles the web resources into package(s) through Webpack
-│   ├── /clean.js               # Cleans up the output (build) folder
-│   ├── /copy.js                # Copies static files to output (build) folder
-│   ├── /deploy.js              # Deploys your web application
-│   ├── /run.js                 # Helper function for running build automation tasks
-│   ├── /runServer.js           # Launches (or restarts) Node.js server
-│   ├── /start.js               # Launches the development web server with "live reload"
-│   └── /webpack.config.js      # Configurations for client-side and server-side bundles
-└── package.json                # The list of 3rd party libraries and utilities
-```
-
-### Related Projects
-
-  * [Membership Database](https://github.com/membership/membership.db) — SQL schema boilerplate for user accounts, profiles, roles, and auth claims
-  * [React Static Boilerplate](https://github.com/koistya/react-static-boilerplate) — Generates static websites from React components
-  * [Babel Starter Kit](https://github.com/kriasoft/babel-starter-kit) — Boilerplate for authoring JavaScript/React.js libraries
-
-### Learn More
-
-  * [Getting Started with React.js](http://facebook.github.io/react/)
-  * [Getting Started with GraphQL and Relay](https://quip.com/oLxzA1gTsJsE)
-  * [React.js Questions on StackOverflow](http://stackoverflow.com/questions/tagged/reactjs)
-  * [React.js Discussion Board](https://discuss.reactjs.org/)
-  * [Flux Architecture for Building User Interfaces](http://facebook.github.io/flux/)
-  * [Mocha - Simple, flexible, fun unit testing](https://mochajs.org/)
-  * [Flow - A static type checker for JavaScript](http://flowtype.org/)
-  * [Redux - A predictable state container for JavaScript apps](http://redux.js.org/)
-  * [The Future of React](https://github.com/reactjs/react-future)
-  * [Learn ES6](https://babeljs.io/docs/learn-es6/), [ES6 Features](https://github.com/lukehoban/es6features#readme)
-
+Dependencies
+------------
+Install and run the RabbitMQ docker image (if not already running) by running the docker script:
+     
+    #!/bin/bash -e
+    
+    NAME='rabbitmq'
+    DATA_ROOT='/opt/docker-containers'
+    RABBITMQ_DATA="${DATA_ROOT}/${NAME}"
+    
+    HOST_NAME=rabbitmq
+    NETWORK_NAME=dev_nw
+    MSG_PORT=5672
+    ALT_MSG_PORT=5671
+    CLUSTER_PORT_1=4369
+    CLUSTER_PORT_2=25672
+    
+    mkdir -p "$RABBITMQ_DATA"
+    
+    docker stop "${NAME}" 2>/dev/null && sleep 1
+    docker rm "${NAME}" 2>/dev/null && sleep 1
+    docker run --detach=true --name "${NAME}" --hostname "${HOST_NAME}" \
+    --volume "${RABBITMQ_DATA}:/var/lib/rabbitmq" \
+    --network=${NETWORK_NAME} \
+    -p $MSG_PORT:5672 \
+    -p $ALT_MSG_PORT:5671 \
+    -p $CLUSTER_PORT_1:4369 \
+    -p $CLUSTER_PORT_2:25672 \
+    rabbitmq:3.6.6
